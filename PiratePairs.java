@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PiratePairs {
-    public static void main(String[] args) {
+    public void playOneRound(List<Integer> scores) {
         // game variables
         boolean gameOver = false;
         int currentPlayer = 0;
@@ -13,7 +13,8 @@ public class PiratePairs {
         Dealer dealer = new Dealer(new DeckOfCards());
         List<Player> players = new ArrayList<>();
         for (int i = 0; i < numPlayers; i++) {
-            players.add(new Player());
+            double riskFactor = (double) i / numPlayers;
+            players.add(new Player(riskFactor));
         }
 
         // play the game
@@ -54,6 +55,27 @@ public class PiratePairs {
             System.out.println("Player " + player.getPlayerNumber() + " scored " + player.getScore());
         }
         printHands(players);
+        scores.set(currentPlayer, scores.get(currentPlayer) + 1);
+    }
+
+    public static void main(String[] args) {
+        PiratePairs game = new PiratePairs();
+
+        // make a list of scores to keep track of the winners
+        List<Integer> scores = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            scores.add(0);
+        }
+
+        // play rounds
+        for (int i = 0; i < 100; i++) {
+            game.playOneRound(scores);
+        }
+
+        // print the scores
+        for (int i = 0; i < scores.size(); i++) {
+            System.out.println("Player " + i + " has " + scores.get(i) + " losses");
+        }
     }
 
     private static void printHands(List<Player> players) {

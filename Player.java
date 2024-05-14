@@ -7,11 +7,13 @@ public class Player {
     private List<Integer> hand;
     private int playerNumber;
     private int score = 0;
+    private double riskFactor;
 
-    public Player() {
+    public Player(double riskFactor) {
         playerCount++;
         playerNumber = playerCount;
         hand = new ArrayList<>();
+        this.riskFactor = riskFactor; // the threshold pair probability for the player to draw a card
     }
 
     public boolean wantsCard(List<Integer> getDiscardsCopy, HashMap<Integer, ArrayList<Integer>> hands) {
@@ -31,7 +33,7 @@ public class Player {
         
         double prob = calculateProbability(tempDeck.getDeck());
 
-        return prob < 0.25;
+        return prob < riskFactor;
     }
 
     private double calculateProbability(List<Integer> tempDeck) {
@@ -86,6 +88,7 @@ public class Player {
             }
         }
         sb.append(" (score: " + score + ")");
+        sb.append(" (risk factor: " + String.format("%.1f%%", riskFactor * 100) + ")");
         return sb.toString();
     }
 }
