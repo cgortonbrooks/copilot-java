@@ -17,6 +17,7 @@ public class Player {
     }
 
     public boolean wantsCard(List<Integer> getDiscardsCopy, HashMap<Integer, ArrayList<Integer>> hands) {
+        
         // combine all the cards in the discards list and the hands hashmap
         List<Integer> allCardsShowing = new ArrayList<>(getDiscardsCopy);
         for (ArrayList<Integer> cards : hands.values()) {
@@ -33,6 +34,7 @@ public class Player {
         
         double prob = calculateProbability(tempDeck.getDeck());
 
+        //System.out.println("Player " + playerNumber + " has a " + String.format("%.1f%%", prob * 100) + " chance of drawing a pair");
         return prob < riskFactor;
     }
 
@@ -51,6 +53,11 @@ public class Player {
 
     public void addCard(int card) {
         hand.add(card);
+    }
+
+    public void reset() {
+        hand.clear();
+        score = 0;
     }
 
     public boolean hasPair(int lastCard) {
@@ -90,5 +97,9 @@ public class Player {
         sb.append(" (score: " + score + ")");
         sb.append(" (risk factor: " + String.format("%.1f%%", riskFactor * 100) + ")");
         return sb.toString();
+    }
+
+    public double getRiskFactor() {
+        return riskFactor;
     }
 }

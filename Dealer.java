@@ -41,6 +41,12 @@ public class Dealer {
     }
 
     public int deal() {
+        // if deck is empty, shuffle the discards and add them to the deck
+        if (deck.getDeck().isEmpty()) {
+            deck.getDeck().addAll(discards);
+            discards.clear();
+            deck.shuffle();
+        }
         return deck.draw();
     }
 
