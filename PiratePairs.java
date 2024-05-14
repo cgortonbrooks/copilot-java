@@ -1,13 +1,14 @@
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: don't reset players, reset decks, deal with discards, scores, etc.
 public class PiratePairs {
     public void playOneRound(List<Integer> scores) {
         // game variables
         boolean gameOver = false;
         int currentPlayer = 0;
         final int losingScore = 30;
-        final int numPlayers = 4;
+        final int numPlayers = 3;
 
         // create a Dealer and a list of Players
         Dealer dealer = new Dealer(new DeckOfCards());

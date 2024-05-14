@@ -39,13 +39,13 @@ public class Player {
     private double calculateProbability(List<Integer> tempDeck) {
         int successfulOutcomes = 0;
     
-        for (int num : hand) {
-            if (tempDeck.contains(num)) {
+        for (int card : tempDeck) {
+            if (hand.contains(card)) {
                 successfulOutcomes++;
             }
         }
     
-        double totalOutcomes = hand.size();
+        double totalOutcomes = tempDeck.size();
         return successfulOutcomes / totalOutcomes;
     }
 
