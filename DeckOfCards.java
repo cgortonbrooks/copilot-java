@@ -22,6 +22,10 @@ public class DeckOfCards {
         return deck.remove(0);
     }
 
+    public List<Integer> getDeck() {
+        return deck;
+    }
+    
     public String toString() {
         return deck.toString();
     }

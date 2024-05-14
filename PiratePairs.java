@@ -3,27 +3,26 @@ import java.util.List;
 
 public class PiratePairs {
     public static void main(String[] args) {
+        // game variables
         boolean gameOver = false;
         int currentPlayer = 0;
         final int losingScore = 30;
-
-        // create a Dealer
-        Dealer dealer = new Dealer(new DeckOfCards());
-
-        // create a list of Players
         final int numPlayers = 4;
+
+        // create a Dealer and a list of Players
+        Dealer dealer = new Dealer(new DeckOfCards());
         List<Player> players = new ArrayList<>();
         for (int i = 0; i < numPlayers; i++) {
             players.add(new Player());
         }
 
-        // deal 1 card to each Player
+        // play the game
         while (!gameOver) {
             printHands(players);
 
             Player player = players.get(currentPlayer);
 
-            if (player.wantsCard()) {
+            if (player.getHand().size() == 0 || player.wantsCard(dealer.getDiscardsCopy(), dealer.getHands(players))) {
                 int card = dealer.deal();
                 player.addCard(card);
                 System.out.println("Player " + player.getPlayerNumber() + " has drawn a " + card);
@@ -49,8 +48,8 @@ public class PiratePairs {
             currentPlayer = (currentPlayer + 1) % numPlayers;
         }
 
+        // game over report
         System.out.println("Game over!");
-        // print the final scores
         for (Player player : players) {
             System.out.println("Player " + player.getPlayerNumber() + " scored " + player.getScore());
         }

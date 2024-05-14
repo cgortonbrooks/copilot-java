@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Player {
@@ -13,16 +14,37 @@ public class Player {
         hand = new ArrayList<>();
     }
 
-    public boolean wantsCard() {
-        // int sum = 0;
-        // for (int card : hand) {
-        //     sum += card;
-        // }
-        // return sum < 30;
-        if (hand.size() == 0) {
-            return true;
+    public boolean wantsCard(List<Integer> getDiscardsCopy, HashMap<Integer, ArrayList<Integer>> hands) {
+        // combine all the cards in the discards list and the hands hashmap
+        List<Integer> allCardsShowing = new ArrayList<>(getDiscardsCopy);
+        for (ArrayList<Integer> cards : hands.values()) {
+            allCardsShowing.addAll(cards);
         }
-        return Math.random() < 0.5;
+
+        // create a temporary full deck of cards
+        DeckOfCards tempDeck = new DeckOfCards();
+
+        // remove all the cards in the allCardsShowing list from the temporary deck
+        for (int card : allCardsShowing) {
+            tempDeck.getDeck().remove(Integer.valueOf(card));
+        }
+        
+        double prob = calculateProbability(tempDeck.getDeck());
+
+        return prob < 0.25;
+    }
+
+    private double calculateProbability(List<Integer> tempDeck) {
+        int successfulOutcomes = 0;
+    
+        for (int num : hand) {
+            if (tempDeck.contains(num)) {
+                successfulOutcomes++;
+            }
+        }
+    
+        double totalOutcomes = hand.size();
+        return successfulOutcomes / totalOutcomes;
     }
 
     public void addCard(int card) {
@@ -63,6 +85,7 @@ public class Player {
                 sb.append(", ");
             }
         }
+        sb.append(" (score: " + score + ")");
         return sb.toString();
     }
 }

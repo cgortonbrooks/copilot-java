@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Dealer {
@@ -30,6 +31,10 @@ public class Dealer {
         return lowestCard;
     }
 
+    public List<Integer> getDiscardsCopy() {
+        return new ArrayList<>(discards);
+    }
+
     public void clearHand(Player player) {
         discards.addAll(player.getHand());
         player.getHand().clear();
@@ -37,5 +42,15 @@ public class Dealer {
 
     public int deal() {
         return deck.draw();
+    }
+
+    // method that returns a hashmap of player numbers and a deep copy of their hands
+    public HashMap<Integer, ArrayList<Integer>> getHands(List<Player> players) {
+        HashMap<Integer, ArrayList<Integer>> hands = new HashMap<>();
+        for (Player player : players) {
+            // add a deep copy of the player's hand to the hashmap
+            hands.put(player.getPlayerNumber(), new ArrayList<>(player.getHand()));
+        }
+        return hands;
     }
 }
